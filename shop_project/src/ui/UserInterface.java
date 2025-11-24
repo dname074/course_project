@@ -6,10 +6,11 @@ import util.Constants;
 
 public class UserInterface {
     private final ProductManager manager;
-    private final Cart cart = new Cart();
+    private final Cart cart;
 
     public UserInterface(ProductManager manager) {
         this.manager = manager;
+        this.cart = new Cart(this.manager);
     }
 
     public void start() {
