@@ -24,6 +24,10 @@ public class Product {
         return name;
     }
 
+    public BigDecimal getPrice() {
+        return price;
+    }
+
     @Override
     public String toString() {
         return String.format("%d %s %f %d\n", id, name, price,availableAmount);
