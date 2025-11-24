@@ -2,6 +2,7 @@ package ui;
 
 import exception.EmptyCartException;
 import exception.FullCartException;
+import exception.ProductNotFoundException;
 import manager.ProductManager;
 import model.Cart;
 import model.Client;
@@ -28,7 +29,7 @@ public class UserInterface {
             printMenu();
             try {
                 running = chooseOption(running);
-            } catch (IllegalArgumentException | FullCartException | EmptyCartException e) {
+            } catch (IllegalArgumentException | FullCartException | EmptyCartException | ProductNotFoundException e) {
                 DataPrinter.print(e.getMessage());
             }
         }
