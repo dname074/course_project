@@ -4,10 +4,11 @@ import util.Constants;
 
 enum MenuOption {
     SHOW_PRODUCTS(1, "Przeglądaj produkty"),
-    ADD_TO_CART(2, "Dodaj do koszyka"),
-    REMOVE_FROM_CART(3, "Usuń z koszyka"),
-    PLACE_AN_ORDER(4, "Złóż zamówienie"),
-    EXIT(5, "Wyjdź");
+    SHOW_PRODUCTS_FROM_CART(2, "Pokaż produkty z koszyka"),
+    ADD_TO_CART(3, "Dodaj do koszyka"),
+    REMOVE_FROM_CART(4, "Usuń z koszyka"),
+    PLACE_AN_ORDER(5, "Złóż zamówienie"),
+    EXIT(6, "Wyjdź");
 
     private final int value;
     private final String description;
