@@ -7,7 +7,7 @@ public class Client {
     private String city;
     private String country;
 
-    public Client(String firstName, String lastName, int age, String city, String country) {
+    public Client(String firstName, String lastName, int age, String country, String city) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;

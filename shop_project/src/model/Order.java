@@ -1,13 +1,14 @@
 package model;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class Order {
     private Client client;
-    private Cart cart;
+    private List<Product> cart;
     private BigDecimal totalPrice;
 
-    public Order(Client client, Cart cart, BigDecimal totalPrice) {
+    public Order(Client client, List<Product> cart, BigDecimal totalPrice) {
         this.client = client;
         this.cart = cart;
         this.totalPrice = totalPrice;
