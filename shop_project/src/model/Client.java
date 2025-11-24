@@ -1,11 +1,11 @@
 package model;
 
 public class Client {
-    private String firstName;
-    private String lastName;
-    private int age;
-    private String city;
-    private String country;
+    private final String firstName;
+    private final String lastName;
+    private final int age;
+    private final String city;
+    private final String country;
 
     public Client(String firstName, String lastName, int age, String country, String city) {
         this.firstName = firstName;

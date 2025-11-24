@@ -1,6 +1,5 @@
 package ui;
 
-import exception.EmptyCartException;
 import manager.ProductManager;
 import model.Cart;
 import model.Client;

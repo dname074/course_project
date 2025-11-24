@@ -4,10 +4,10 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Product {
-    private int id;
-    private String name;
-    private BigDecimal price;
-    private int availableAmount;
+    private final int id;
+    private final String name;
+    private final BigDecimal price;
+    private final int availableAmount;
 
     public Product(int id, String name, BigDecimal price, int availableAmount) {
         this.id = id;
@@ -18,10 +18,6 @@ public class Product {
 
     public int getId() {
         return id;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public BigDecimal getPrice() {
