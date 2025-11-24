@@ -1,8 +1,13 @@
 package ui;
 
+import exception.EmptyCartException;
 import manager.ProductManager;
 import model.Cart;
+import model.Client;
+import model.Product;
 import util.Constants;
+
+import java.util.List;
 
 public class UserInterface {
     private final ProductManager manager;
@@ -34,9 +39,10 @@ public class UserInterface {
 
         switch(option) {
             case SHOW_PRODUCTS -> manager.showProducts();
-            case ADD_TO_CART -> DataPrinter.print("Funkcjonalnosc wkrotce");
-            case REMOVE_FROM_CART -> DataPrinter.print("Funkcjonalnosc wkrotce");
-            case PLACE_AN_ORDER -> DataPrinter.print("Funkcjonalnosc wkrotce");
+            case SHOW_PRODUCTS_FROM_CART -> showProductsFromCart(cart.getProductsFromCart());
+            case ADD_TO_CART -> addProductToCart();
+            case REMOVE_FROM_CART -> removeProductFromCart();
+            case PLACE_AN_ORDER -> getUserInfoAndPlaceAnOrder();
             case EXIT -> running = false;
             default -> throw new IllegalArgumentException(Constants.INVALID_OPTION_MESS);
         }
@@ -47,5 +53,48 @@ public class UserInterface {
         for (MenuOption option : MenuOption.values()) {
             DataPrinter.print(option.toString());
         }
+    }
+
+    private void showProductsFromCart(List<Product> products) {
+        if (products.isEmpty()) {
+            DataPrinter.print("Koszyk jest pusty");
+            return;
+        }
+        products.forEach(product -> DataPrinter.print(product.toString()));
+    }
+
+    private void addProductToCart() {
+        DataPrinter.print("Podaj id produktu ze sklepu, który chcesz dodać do koszyka");
+        cart.addToCart(DataReader.getIntFromUser());
+    }
+
+    private void removeProductFromCart() {
+        DataPrinter.print("Podaj id produktu, który chcesz usunąć");
+
+        if (cart.removeFromCart(DataReader.getIntFromUser())) {
+            DataPrinter.print("Usunięto produkt z koszyka");
+            return;
+        }
+        DataPrinter.print("Nie znaleziono podanego produktu w koszyku");
+    }
+
+    private void getUserInfoAndPlaceAnOrder() {
+        Client client = createClient();
+        cart.placeAnOrder(client);
+    }
+
+    private Client createClient() {
+        DataPrinter.print("Podaj swoje dane");
+        DataPrinter.print("Imie: ");
+        String firstName = DataReader.getTextFromUser();
+        DataPrinter.print("Nazwisko: ");
+        String lastName = DataReader.getTextFromUser();
+        DataPrinter.print("Wiek: ");
+        int age = DataReader.getIntFromUser();
+        DataPrinter.print("Państwo: ");
+        String country = DataReader.getTextFromUser();
+        DataPrinter.print("Miasto: ");
+        String city = DataReader.getTextFromUser();
+        return new Client(firstName, lastName, age, country, city);
     }
 }
