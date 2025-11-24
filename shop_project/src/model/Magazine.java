@@ -1,6 +1,7 @@
 package model;
 
 import exception.ProductAlreadyInSystemException;
+import exception.ProductNotFoundException;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -26,6 +27,13 @@ public class Magazine {
 
     public Collection<Product> getProducts() {
         return availableProducts.values();
+    }
+
+    public Product getProductById(int id) {
+        if (availableProducts.containsKey(id)) {
+            return availableProducts.get(id);
+        }
+        throw new ProductNotFoundException("Nie znaleziono produktu o podanym id");
     }
 }
 

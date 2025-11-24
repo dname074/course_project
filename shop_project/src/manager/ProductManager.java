@@ -31,5 +31,9 @@ public class ProductManager {
             System.out.println(product.toString());
         }
     }
+
+    public Product getProductFromMagazineById(int id) {
+        return magazine.getProductById(id);
+    }
 }
 
