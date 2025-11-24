@@ -38,7 +38,6 @@ public class Cart {
 
     public void placeAnOrder(Client client) {
         Order order = new Order(client, products, getOrderPrice());
-
         OrderProcessor.takeAnOrder(order);
     }
 
@@ -50,6 +49,10 @@ public class Cart {
 
     public List<Product> getProductsFromCart() {
         return products;
+    }
+
+    public boolean isEmpty() {
+        return products.isEmpty();
     }
 }
 

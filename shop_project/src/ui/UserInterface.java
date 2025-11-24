@@ -78,6 +78,10 @@ public class UserInterface {
     }
 
     private void getUserInfoAndPlaceAnOrder() {
+        if (cart.isEmpty()) {
+            DataPrinter.print("Nie udało się złożyć zamówienia, gdyż koszyk jest pusty");
+            return;
+        }
         Client client = createClient();
         cart.placeAnOrder(client);
     }
