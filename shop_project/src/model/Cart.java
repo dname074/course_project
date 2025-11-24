@@ -39,6 +39,7 @@ public class Cart {
     public void placeAnOrder(Client client) {
         Order order = new Order(client, products, getOrderPrice());
         OrderProcessor.takeAnOrder(order);
+        products.clear();
     }
 
     private BigDecimal getOrderPrice() {
