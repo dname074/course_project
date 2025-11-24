@@ -1,5 +1,7 @@
 package ui;
 
+import exception.EmptyCartException;
+import exception.FullCartException;
 import manager.ProductManager;
 import model.Cart;
 import model.Client;
@@ -26,7 +28,7 @@ public class UserInterface {
             printMenu();
             try {
                 running = chooseOption(running);
-            } catch (IllegalArgumentException e) {
+            } catch (IllegalArgumentException | FullCartException | EmptyCartException e) {
                 DataPrinter.print(e.getMessage());
             }
         }
@@ -62,9 +64,10 @@ public class UserInterface {
         products.forEach(product -> DataPrinter.print(product.toString()));
     }
 
-    private void addProductToCart() {
+    private void addProductToCart() throws FullCartException {
         DataPrinter.print("Podaj id produktu ze sklepu, który chcesz dodać do koszyka");
         cart.addToCart(DataReader.getIntFromUser());
+        DataPrinter.print("Dodano produkt do koszyka");
     }
 
     private void removeProductFromCart() {
@@ -79,8 +82,7 @@ public class UserInterface {
 
     private void getUserInfoAndPlaceAnOrder() {
         if (cart.isEmpty()) {
-            DataPrinter.print("Nie udało się złożyć zamówienia, gdyż koszyk jest pusty");
-            return;
+            throw new EmptyCartException("Nie udało się złożyć zamówienia, koszyk jest pusty");
         }
         Client client = createClient();
         cart.placeAnOrder(client);
