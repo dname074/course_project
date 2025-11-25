@@ -9,14 +9,36 @@ import java.util.List;
 public class Order {
     private final Client client;
     private final List<Product> cart;
-    private final BigDecimal totalPrice;
     private final LocalDateTime orderDate;
+    private final BigDecimal totalPrice;
 
-    public Order(Client client, List<Product> cart, BigDecimal totalPrice) {
+    public Order(Client client, List<Product> cart) {
         this.client = client;
         this.cart = cart;
-        this.totalPrice = totalPrice;
         orderDate = LocalDateTime.now();
+        this.totalPrice = getOrderPrice();
+    }
+
+    private BigDecimal getOrderPrice() {
+        return cart.stream()
+                .map(Product::getPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public List<Product> getCart() {
+        return cart;
+    }
+
+    public LocalDateTime getOrderDate() {
+        return orderDate;
+    }
+
+    public BigDecimal getTotalPrice() {
+        return totalPrice;
     }
 
     @Override

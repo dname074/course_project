@@ -6,7 +6,6 @@ import exception.ProductNotFoundException;
 import manager.OrderProcessor;
 import manager.ProductManager;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,15 +36,9 @@ public class Cart {
     }
 
     public void placeAnOrder(Client client) {
-        Order order = new Order(client, products, getOrderPrice());
+        Order order = new Order(client, products);
         OrderProcessor.takeAnOrder(order);
         products.clear();
-    }
-
-    private BigDecimal getOrderPrice() {
-        return products.stream()
-                .map(Product::getPrice)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public List<Product> getProductsFromCart() {

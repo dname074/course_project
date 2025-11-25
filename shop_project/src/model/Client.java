@@ -13,6 +13,18 @@ public class Client {
         this.address = address;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
     @Override
     public String toString() {
         return String.format("%s\n%s\n%d\n%s\n",
