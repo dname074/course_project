@@ -1,7 +1,7 @@
 package manager;
 
 import exception.ProductAlreadyInSystemException;
-import exception.ProductIsNotAvailableException;
+import exception.ProductNotAvailableException;
 import exception.ProductNotFoundException;
 import model.Magazine;
 import model.Product;
@@ -32,7 +32,7 @@ public class ProductManager {
         }
     }
 
-    public Product getProductFromMagazineById(int id) throws ProductNotFoundException, ProductIsNotAvailableException {
+    public Product getProductFromMagazineById(int id) throws ProductNotFoundException, ProductNotAvailableException {
         return magazine.getProductById(id);
     }
 }

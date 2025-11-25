@@ -38,7 +38,7 @@ public class Product {
 
     @Override
     public String toString() {
-        return String.format("%d %s %.2f zł, dostępne sztuki: %d\n", id, name, price, availableAmount);
+        return String.format("%d %s %.2f zł, dostępne sztuki: %d", id, name, price, availableAmount);
     }
 
     @Override

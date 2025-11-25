@@ -21,7 +21,7 @@ public class Computer extends Product {
 
     @Override
     public String toString() {
-        return String.format("%s %s %s %s %s %s\n", super.toString(), ram, cpu, diskMemory, gpu, os);
+        return String.format("%s %s %s %s %s %s ", super.toString(), ram, cpu, diskMemory, gpu, os);
     }
 
     @Override

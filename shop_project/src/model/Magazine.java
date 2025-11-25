@@ -1,7 +1,7 @@
 package model;
 
 import exception.ProductAlreadyInSystemException;
-import exception.ProductIsNotAvailableException;
+import exception.ProductNotAvailableException;
 import exception.ProductNotFoundException;
 
 import java.util.Collection;
@@ -35,7 +35,7 @@ public class Magazine {
             throw new ProductNotFoundException("Nie znaleziono produktu o podanym id");
         }
         if (!availableProducts.get(id).removeOneItem()) {
-            throw new ProductIsNotAvailableException("Produkt nie jest w tej chwili dostępny");
+            throw new ProductNotAvailableException("Produkt nie jest w tej chwili dostępny");
         }
         return availableProducts.get(id);
     }
