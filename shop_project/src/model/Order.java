@@ -7,13 +7,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class Order {
-    private final Client client;
+    private final Customer customer;
     private final List<Product> cart;
     private final LocalDateTime orderDate;
     private final BigDecimal totalPrice;
 
-    public Order(Client client, List<Product> cart) {
-        this.client = client;
+    public Order(Customer customer, List<Product> cart) {
+        this.customer = customer;
         this.cart = cart;
         orderDate = LocalDateTime.now();
         this.totalPrice = getOrderPrice();
@@ -25,8 +25,8 @@ public class Order {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    public Client getClient() {
-        return client;
+    public Customer getClient() {
+        return customer;
     }
 
     public List<Product> getCart() {
@@ -44,6 +44,6 @@ public class Order {
     @Override
     public String toString() {
         return String.format("Client information:\n%s\nCart:\n%s\nTotal price:\n%.2f\nOrder date: %s",
-                client.toString(), cart.toString(), totalPrice, orderDate.format(Constants.DATE_FORMAT));
+                customer.toString(), cart.toString(), totalPrice, orderDate.format(Constants.DATE_FORMAT));
     }
 }

@@ -7,7 +7,7 @@ import exception.ProductNotAvailableException;
 import exception.ProductNotFoundException;
 import manager.ProductManager;
 import model.Cart;
-import model.Client;
+import model.Customer;
 import model.Product;
 import util.Constants;
 
@@ -90,11 +90,11 @@ public class UserInterface {
         if (cart.isEmpty()) {
             throw new EmptyCartException("Nie udało się złożyć zamówienia, koszyk jest pusty");
         }
-        Client client = createClient();
-        cart.placeAnOrder(client);
+        Customer customer = createCustomer();
+        cart.placeAnOrder(customer);
     }
 
-    private Client createClient() {
+    private Customer createCustomer() {
         DataPrinter.print("Podaj swoje dane");
         DataPrinter.print("Imie: ");
         String firstName = DataReader.getTextFromUser();
@@ -104,6 +104,6 @@ public class UserInterface {
         int age = DataReader.getIntFromUser();
         DataPrinter.print("Adres: ");
         String address = DataReader.getTextFromUser();
-        return new Client(firstName, lastName, age, address);
+        return new Customer(firstName, lastName, age, address);
     }
 }

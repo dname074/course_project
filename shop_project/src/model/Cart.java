@@ -36,8 +36,8 @@ public class Cart {
         });
     }
 
-    public void placeAnOrder(Client client) throws FileWriteException {
-        Order order = new Order(client, products);
+    public void placeAnOrder(Customer customer) throws FileWriteException {
+        Order order = new Order(customer, products);
         OrderProcessor.takeAnOrder(order);
         products.clear();
     }
