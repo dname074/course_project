@@ -4,20 +4,18 @@ public class Client {
     private final String firstName;
     private final String lastName;
     private final int age;
-    private final String city;
-    private final String country;
+    private final String address;
 
-    public Client(String firstName, String lastName, int age, String country, String city) {
+    public Client(String firstName, String lastName, int age, String address) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
-        this.city = city;
-        this.country = country;
+        this.address = address;
     }
 
     @Override
     public String toString() {
-        return String.format("%s \n%s \n%d \n%s \n%s\n",
-                firstName, lastName, age, city, country);
+        return String.format("%s\n%s\n%d\n%s\n",
+                firstName, lastName, age, address);
     }
 }

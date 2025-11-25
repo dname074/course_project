@@ -101,10 +101,8 @@ public class UserInterface {
         String lastName = DataReader.getTextFromUser();
         DataPrinter.print("Wiek: ");
         int age = DataReader.getIntFromUser();
-        DataPrinter.print("Państwo: ");
-        String country = DataReader.getTextFromUser();
-        DataPrinter.print("Miasto: ");
-        String city = DataReader.getTextFromUser();
-        return new Client(firstName, lastName, age, country, city);
+        DataPrinter.print("Adres: ");
+        String address = DataReader.getTextFromUser();
+        return new Client(firstName, lastName, age, address);
     }
 }
