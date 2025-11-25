@@ -22,7 +22,7 @@ enum MenuOption {
         if (number > MenuOption.values().length || number < 0) {
             throw new IllegalArgumentException(Constants.INVALID_OPTION_MESS);
         }
-        return MenuOption.values()[number-1];
+        return MenuOption.values()[number - 1];
     }
 
     @Override

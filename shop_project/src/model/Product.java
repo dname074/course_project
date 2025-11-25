@@ -7,7 +7,7 @@ public class Product {
     private final int id;
     private final String name;
     private final BigDecimal price;
-    private final int availableAmount;
+    private int availableAmount;
 
     public Product(int id, String name, BigDecimal price, int availableAmount) {
         this.id = id;
@@ -24,9 +24,21 @@ public class Product {
         return price;
     }
 
+    public boolean removeOneItem() {
+        if (availableAmount == 0) {
+            return false;
+        }
+        availableAmount--;
+        return true;
+    }
+
+    public void addOneItem() {
+        availableAmount++;
+    }
+
     @Override
     public String toString() {
-        return String.format("%d %s %.2f zł %d sztuk(i,a)\n", id, name, price,availableAmount);
+        return String.format("%d %s %.2f zł, dostępne sztuki: %d\n", id, name, price, availableAmount);
     }
 
     @Override

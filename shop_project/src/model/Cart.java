@@ -1,6 +1,8 @@
 package model;
 
 import exception.FullCartException;
+import exception.ProductIsNotAvailableException;
+import exception.ProductNotFoundException;
 import manager.OrderProcessor;
 import manager.ProductManager;
 
@@ -17,7 +19,7 @@ public class Cart {
         this.manager = manager;
     }
 
-    public void addToCart(int id) {
+    public void addToCart(int id) throws ProductNotFoundException, ProductIsNotAvailableException {
         if (products.size() == MAX_PRODUCTS) {
             throw new FullCartException("Koszyk jest już pełny");
         }
@@ -25,15 +27,13 @@ public class Cart {
     }
 
     public boolean removeFromCart(int id) {
-        if (!products.isEmpty()) {
-            for (Product product : products) {
-                if (product.getId()==id) {
-                    products.remove(product);
-                    return true;
-                }
+        return products.removeIf(product -> {
+            if (product.getId() == id) {
+                product.addOneItem();
+                return true;
             }
-        }
-        return false;
+            return false;
+        });
     }
 
     public void placeAnOrder(Client client) {

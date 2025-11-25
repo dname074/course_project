@@ -1,38 +1,38 @@
 package manager;
 
+import exception.ProductAlreadyInSystemException;
+import exception.ProductIsNotAvailableException;
+import exception.ProductNotFoundException;
 import model.Magazine;
 import model.Product;
+import ui.DataPrinter;
 
 public class ProductManager {
-    private Magazine magazine;
+    private final Magazine magazine;
 
     public ProductManager(Magazine magazine) {
         this.magazine = magazine;
     }
 
-    public void addProductToMagazine(Product product) {
+    public void addProductToMagazine(Product product) throws ProductAlreadyInSystemException {
         magazine.addProduct(product);
     }
 
     public void removeProductFromMagazine(int id) {
         if (magazine.removeProduct(id)) {
-            System.out.println("Usunięto ze sklepu produkt o id " + id);
+            DataPrinter.print("Usunięto ze sklepu produkt o id " + id);
         } else {
-            System.out.println("Nie znaleziono w sklepie produktu o id " + id);
+            DataPrinter.print("Nie znaleziono w sklepie produktu o id " + id);
         }
-    }
-
-    public void updateProducts() {
-        System.out.println("Zaktualizuj produkty");
     }
 
     public void showProducts() {
         for (Product product : magazine.getProducts()) {
-            System.out.println(product.toString());
+            DataPrinter.print(product.toString());
         }
     }
 
-    public Product getProductFromMagazineById(int id) {
+    public Product getProductFromMagazineById(int id) throws ProductNotFoundException, ProductIsNotAvailableException {
         return magazine.getProductById(id);
     }
 }

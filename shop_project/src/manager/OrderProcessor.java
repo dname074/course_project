@@ -9,7 +9,6 @@ public class OrderProcessor {
 
     public static void takeAnOrder(Order order) {
         orders.addOrder(order);
-
         invoiceGenerator.generateInvoice(order);
     }
 }

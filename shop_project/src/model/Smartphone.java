@@ -4,10 +4,10 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Smartphone extends Product {
-    private String color;
-    private String batteryCapacity;
-    private String camera;
-    private String system;
+    private final String color;
+    private final String batteryCapacity;
+    private final String camera;
+    private final String system;
 
     public Smartphone(int id, String name, BigDecimal price, int availableAmount, String color, String batteryCapacity, String camera, String system) {
         super(id, name, price, availableAmount);

@@ -2,6 +2,7 @@ package ui;
 
 import exception.EmptyCartException;
 import exception.FullCartException;
+import exception.ProductIsNotAvailableException;
 import exception.ProductNotFoundException;
 import manager.ProductManager;
 import model.Cart;
@@ -29,17 +30,20 @@ public class UserInterface {
             printMenu();
             try {
                 running = chooseOption(running);
-            } catch (IllegalArgumentException | FullCartException | EmptyCartException | ProductNotFoundException e) {
+            } catch (IllegalArgumentException | FullCartException |
+                     EmptyCartException | ProductNotFoundException |
+                     ProductIsNotAvailableException e) {
                 DataPrinter.print(e.getMessage());
             }
         }
+        DataPrinter.print("Zamykanie...");
     }
 
     private boolean chooseOption(boolean running) {
         DataPrinter.print("Wybierz co chcesz zrobić");
         MenuOption option = MenuOption.getOptionFromInt(DataReader.getIntFromUser());
 
-        switch(option) {
+        switch (option) {
             case SHOW_PRODUCTS -> manager.showProducts();
             case SHOW_PRODUCTS_FROM_CART -> showProductsFromCart(cart.getProductsFromCart());
             case ADD_TO_CART -> addProductToCart();
@@ -65,7 +69,7 @@ public class UserInterface {
         products.forEach(product -> DataPrinter.print(product.toString()));
     }
 
-    private void addProductToCart() throws FullCartException {
+    private void addProductToCart() throws FullCartException, ProductNotFoundException, ProductIsNotAvailableException {
         DataPrinter.print("Podaj id produktu ze sklepu, który chcesz dodać do koszyka");
         cart.addToCart(DataReader.getIntFromUser());
         DataPrinter.print("Dodano produkt do koszyka");

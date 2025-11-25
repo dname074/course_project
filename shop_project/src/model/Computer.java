@@ -4,11 +4,11 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Computer extends Product {
-    private String ram;
-    private String cpu;
-    private String diskMemory;
-    private String gpu;
-    private String os;
+    private final String ram;
+    private final String cpu;
+    private final String diskMemory;
+    private final String gpu;
+    private final String os;
 
     public Computer(int id, String name, BigDecimal price, int availableAmount, String ram, String cpu, String diskMemory, String gpu, String os) {
         super(id, name, price, availableAmount);
