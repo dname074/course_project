@@ -25,9 +25,9 @@ public class Invoice {
     }
 
     public String toCsv() {
-        return String.format("%s;%s;%s;%s;%s;%.2f",
+        return String.format("%s;%s;%s;%s;%s;%.2f\n",
                 firstName, lastName, address, cart,
-                orderDate.format(Constants.dateFormat), totalPrice);
+                orderDate.format(Constants.DATE_FORMAT), totalPrice);
     }
 
     @Override
@@ -35,6 +35,6 @@ public class Invoice {
         return String.format(
                 "Faktura:\nImie %s, Nazwisko %s, Adres %s\nZamówione produkty \n%s\nData zamówienia %s\nKoszt zamówienia %.2f",
                 firstName, lastName, address, cart,
-                orderDate.format(Constants.dateFormat), totalPrice);
+                orderDate.format(Constants.DATE_FORMAT), totalPrice);
     }
 }

@@ -1,8 +1,9 @@
 package ui;
 
 import exception.EmptyCartException;
+import exception.FileWriteException;
 import exception.FullCartException;
-import exception.ProductIsNotAvailableException;
+import exception.ProductNotAvailableException;
 import exception.ProductNotFoundException;
 import manager.ProductManager;
 import model.Cart;
@@ -32,14 +33,14 @@ public class UserInterface {
                 running = chooseOption(running);
             } catch (IllegalArgumentException | FullCartException |
                      EmptyCartException | ProductNotFoundException |
-                     ProductIsNotAvailableException e) {
+                     ProductNotAvailableException | FileWriteException e) {
                 DataPrinter.print(e.getMessage());
             }
         }
         DataPrinter.print("Zamykanie...");
     }
 
-    private boolean chooseOption(boolean running) {
+    private boolean chooseOption(boolean running) throws FileWriteException {
         DataPrinter.print("Wybierz co chcesz zrobić");
         MenuOption option = MenuOption.getOptionFromInt(DataReader.getIntFromUser());
 
@@ -69,7 +70,7 @@ public class UserInterface {
         products.forEach(product -> DataPrinter.print(product.toString()));
     }
 
-    private void addProductToCart() throws FullCartException, ProductNotFoundException, ProductIsNotAvailableException {
+    private void addProductToCart() throws FullCartException, ProductNotFoundException, ProductNotAvailableException {
         DataPrinter.print("Podaj id produktu ze sklepu, który chcesz dodać do koszyka");
         cart.addToCart(DataReader.getIntFromUser());
         DataPrinter.print("Dodano produkt do koszyka");
@@ -85,7 +86,7 @@ public class UserInterface {
         DataPrinter.print("Nie znaleziono podanego produktu w koszyku");
     }
 
-    private void getUserInfoAndPlaceAnOrder() {
+    private void getUserInfoAndPlaceAnOrder() throws FileWriteException {
         if (cart.isEmpty()) {
             throw new EmptyCartException("Nie udało się złożyć zamówienia, koszyk jest pusty");
         }
