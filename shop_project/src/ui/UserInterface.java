@@ -17,9 +17,9 @@ public class UserInterface {
     private final ProductManager manager;
     private final Cart cart;
 
-    public UserInterface(ProductManager manager) {
+    public UserInterface(ProductManager manager, Cart cart) {
         this.manager = manager;
-        this.cart = new Cart(this.manager);
+        this.cart = cart;
     }
 
     public void start() {

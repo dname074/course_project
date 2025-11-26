@@ -13,10 +13,12 @@ import java.util.List;
 public class Cart {
     private final List<Product> products = new ArrayList<>();
     private final ProductManager manager;
+    private final OrderProcessor orderProcessor;
     private final static int MAX_PRODUCTS = 20;
 
-    public Cart(ProductManager manager) {
+    public Cart(ProductManager manager, OrderProcessor orderProcessor) {
         this.manager = manager;
+        this.orderProcessor = orderProcessor;
     }
 
     public void addToCart(int id) throws ProductNotFoundException, ProductNotAvailableException {
@@ -38,7 +40,7 @@ public class Cart {
 
     public void placeAnOrder(Customer customer) throws FileWriteException {
         Order order = new Order(customer, products);
-        OrderProcessor.takeAnOrder(order);
+        orderProcessor.takeAnOrder(order);
         products.clear();
     }
 

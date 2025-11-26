@@ -11,15 +11,18 @@ import java.nio.file.StandardOpenOption;
 
 public class InvoiceCsvManager {
     private final Path filePath = Path.of(Constants.CSV_FILE_PATH);
+    private final Object lockObject = new Object();
 
     public void saveInvoice(Invoice invoice) throws FileWriteException {
-        try {
-            if (Files.notExists(filePath)) {
-                Files.createFile(filePath);
+        synchronized (lockObject) {
+            try {
+                if (Files.notExists(filePath)) {
+                    Files.createFile(filePath);
+                }
+                Files.writeString(filePath, invoice.toCsv(), StandardOpenOption.APPEND);
+            } catch (IOException e) {
+                throw new FileWriteException("Błąd przy zapisie zamówienia");
             }
-            Files.writeString(filePath, invoice.toCsv(), StandardOpenOption.APPEND);
-        } catch (IOException e) {
-            throw new FileWriteException("Błąd przy zapisie zamówienia");
         }
     }
 }

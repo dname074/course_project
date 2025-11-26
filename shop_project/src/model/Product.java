@@ -2,18 +2,19 @@ package model;
 
 import java.math.BigDecimal;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Product {
     private final int id;
     private final String name;
     private final BigDecimal price;
-    private int availableAmount;
+    private final AtomicInteger availableAmount;
 
     public Product(int id, String name, BigDecimal price, int availableAmount) {
         this.id = id;
         this.name = name;
         this.price = price;
-        this.availableAmount = availableAmount;
+        this.availableAmount = new AtomicInteger(availableAmount);
     }
 
     public int getId() {
@@ -25,20 +26,20 @@ public class Product {
     }
 
     public boolean removeOneItem() {
-        if (availableAmount == 0) {
+        if (availableAmount.get() == 0) {
             return false;
         }
-        availableAmount--;
+        availableAmount.decrementAndGet();
         return true;
     }
 
     public void addOneItem() {
-        availableAmount++;
+        availableAmount.incrementAndGet();
     }
 
     @Override
     public String toString() {
-        return String.format("%d %s %.2f zł, dostępne sztuki: %d", id, name, price, availableAmount);
+        return String.format("%d %s %.2f zł, dostępne sztuki: %d", id, name, price, availableAmount.get());
     }
 
     @Override
