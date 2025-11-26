@@ -1,6 +1,5 @@
 package model;
 
-import exception.FileWriteException;
 import exception.FullCartException;
 import exception.ProductNotAvailableException;
 import exception.ProductNotFoundException;
@@ -38,8 +37,9 @@ public class Cart {
         });
     }
 
-    public void placeAnOrder(Customer customer) throws FileWriteException {
-        Order order = new Order(customer, products);
+    public void placeAnOrder(Customer customer) {
+        List<Product> productsCopy = new ArrayList<>(products);
+        Order order = new Order(customer, productsCopy);
         orderProcessor.takeAnOrder(order);
         products.clear();
     }

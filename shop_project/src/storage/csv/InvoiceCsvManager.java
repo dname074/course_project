@@ -21,7 +21,7 @@ public class InvoiceCsvManager {
                 }
                 Files.writeString(filePath, invoice.toCsv(), StandardOpenOption.APPEND);
             } catch (IOException e) {
-                throw new FileWriteException("Błąd przy zapisie zamówienia");
+                throw new FileWriteException(Constants.ORDER_PROCESS_FAILURE);
             }
         }
     }

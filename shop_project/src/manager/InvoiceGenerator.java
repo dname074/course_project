@@ -8,6 +8,6 @@ public class InvoiceGenerator {
         String firstName = order.getClient().getFirstName();
         String lastName = order.getClient().getLastName();
         String address = order.getClient().getAddress();
-        return new Invoice(firstName, lastName, address, order.getCart(), order.getOrderDate(), order.getTotalPrice());
+        return new Invoice(firstName, lastName, address, order.getCart().toString(), order.getOrderDate(), order.getTotalPrice());
     }
 }

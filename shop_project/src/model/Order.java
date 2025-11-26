@@ -1,7 +1,5 @@
 package model;
 
-import util.Constants;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -39,11 +37,5 @@ public class Order {
 
     public BigDecimal getTotalPrice() {
         return totalPrice;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("Client information:\n%s\nCart:\n%s\nTotal price:\n%.2f\nOrder date: %s",
-                customer.toString(), cart.toString(), totalPrice, orderDate.format(Constants.DATE_FORMAT));
     }
 }

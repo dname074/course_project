@@ -49,7 +49,7 @@ public class UserInterface {
             case SHOW_PRODUCTS_FROM_CART -> showProductsFromCart(cart.getProductsFromCart());
             case ADD_TO_CART -> addProductToCart();
             case REMOVE_FROM_CART -> removeProductFromCart();
-            case PLACE_AN_ORDER -> getUserInfoAndPlaceAnOrder();
+            case PLACE_AN_ORDER -> placeAnOrder();
             case EXIT -> running = false;
             default -> throw new IllegalArgumentException(Constants.INVALID_OPTION_MESS);
         }
@@ -86,12 +86,13 @@ public class UserInterface {
         DataPrinter.print("Nie znaleziono podanego produktu w koszyku");
     }
 
-    private void getUserInfoAndPlaceAnOrder() throws FileWriteException {
+    private void placeAnOrder() throws FileWriteException {
         if (cart.isEmpty()) {
             throw new EmptyCartException("Nie udało się złożyć zamówienia, koszyk jest pusty");
         }
         Customer customer = createCustomer();
         cart.placeAnOrder(customer);
+        DataPrinter.print("Pomyślnie złożono zamówienie");
     }
 
     private Customer createCustomer() {
