@@ -5,6 +5,7 @@ import exception.ProductNotAvailableException;
 import exception.ProductNotFoundException;
 import manager.OrderProcessor;
 import manager.ProductManager;
+import promotion.PromotionManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,13 @@ public class Cart {
     public void placeAnOrder(Customer customer) {
         List<Product> productsCopy = new ArrayList<>(products);
         Order order = new Order(customer, productsCopy);
+        orderProcessor.takeAnOrder(order);
+        products.clear();
+    }
+
+    public void placeAnOrder(Customer customer, PromotionManager promotionManager, String userCode) {
+        List<Product> productsCopy = new ArrayList<>(products);
+        Order order = new Order(customer, productsCopy, promotionManager, userCode);
         orderProcessor.takeAnOrder(order);
         products.clear();
     }

@@ -5,20 +5,25 @@ import exception.FileWriteException;
 import exception.FullCartException;
 import exception.ProductNotAvailableException;
 import exception.ProductNotFoundException;
+import exception.PromotionExpiredException;
+import exception.UnknownPromoCodeException;
 import manager.ProductManager;
 import model.Cart;
 import model.Customer;
 import model.Product;
+import promotion.PromotionManager;
 import util.Constants;
 
 import java.util.List;
 
 public class UserInterface {
     private final ProductManager manager;
+    private final PromotionManager promotionManager;
     private final Cart cart;
 
-    public UserInterface(ProductManager manager, Cart cart) {
+    public UserInterface(ProductManager manager, Cart cart, PromotionManager promotionManager) {
         this.manager = manager;
+        this.promotionManager = promotionManager;
         this.cart = cart;
     }
 
@@ -33,7 +38,8 @@ public class UserInterface {
                 running = chooseOption(running);
             } catch (IllegalArgumentException | FullCartException |
                      EmptyCartException | ProductNotFoundException |
-                     ProductNotAvailableException | FileWriteException e) {
+                     ProductNotAvailableException | FileWriteException |
+                     UnknownPromoCodeException | PromotionExpiredException e) {
                 DataPrinter.print(e.getMessage());
             }
         }
@@ -91,7 +97,11 @@ public class UserInterface {
             throw new EmptyCartException("Nie udało się złożyć zamówienia, koszyk jest pusty");
         }
         Customer customer = createCustomer();
-        cart.placeAnOrder(customer);
+        if (hasPromoCode()) {
+            cart.placeAnOrder(customer, promotionManager, getPromoCode());
+        } else {
+            cart.placeAnOrder(customer);
+        }
         DataPrinter.print("Pomyślnie złożono zamówienie");
     }
 
@@ -106,5 +116,16 @@ public class UserInterface {
         DataPrinter.print("Adres: ");
         String address = DataReader.getTextFromUser();
         return new Customer(firstName, lastName, age, address);
+    }
+
+    private boolean hasPromoCode() {
+        DataPrinter.print("Czy posiadasz kod rabatowy?(1-tak, 2-nie)");
+        int choice = DataReader.getIntFromUser();
+        return choice == 1;
+    }
+
+    private String getPromoCode() {
+        DataPrinter.print("Podaj kod:");
+        return DataReader.getTextFromUser().toUpperCase().trim();
     }
 }

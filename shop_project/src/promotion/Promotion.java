@@ -12,4 +12,16 @@ public class Promotion {
         this.expireDate = expireDate;
         this.discount = discount;
     }
+
+    public String getPromoCode() {
+        return promoCode;
+    }
+
+    public Instant getExpireDate() {
+        return expireDate;
+    }
+
+    public Double getDiscount() {
+        return discount;
+    }
 }

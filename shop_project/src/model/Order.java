@@ -1,5 +1,7 @@
 package model;
 
+import promotion.PromotionManager;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,6 +17,13 @@ public class Order {
         this.cart = cart;
         orderDate = LocalDateTime.now();
         this.totalPrice = getOrderPrice();
+    }
+
+    public Order(Customer customer, List<Product> cart, PromotionManager promoManager, String userCode) {
+        this.customer = customer;
+        this.cart = cart;
+        orderDate = LocalDateTime.now();
+        this.totalPrice = promoManager.applyPromotion(getOrderPrice(), userCode);
     }
 
     private BigDecimal getOrderPrice() {
