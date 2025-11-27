@@ -28,7 +28,7 @@ public class ProductManager {
 
     public void showProducts() {
         for (Product product : magazine.getProducts()) {
-            DataPrinter.print(product.toString());
+            DataPrinter.print(product.toString() + "\nDostępne sztuki: " + product.getAvailableAmount());
         }
     }
 

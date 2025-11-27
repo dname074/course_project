@@ -25,6 +25,10 @@ public class Product {
         return price;
     }
 
+    public int getAvailableAmount() {
+        return availableAmount.get();
+    }
+
     public boolean removeOneItem() {
         if (availableAmount.get() == 0) {
             return false;
@@ -39,7 +43,7 @@ public class Product {
 
     @Override
     public String toString() {
-        return String.format("%d %s %.2f zł, dostępne sztuki: %d", id, name, price, availableAmount.get());
+        return String.format("%d %s %.2f zł", id, name, price);
     }
 
     @Override
