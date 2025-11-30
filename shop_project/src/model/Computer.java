@@ -3,15 +3,16 @@ package model;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-public class Computer extends Product {
+public class Computer extends Category {
     private final String ram;
     private final String cpu;
     private final String diskMemory;
     private final String gpu;
     private final String os;
 
-    public Computer(int id, String name, BigDecimal price, int availableAmount, String ram, String cpu, String diskMemory, String gpu, String os) {
-        super(id, name, price, availableAmount);
+    public Computer(String name, BigDecimal price, String ram, String cpu, String diskMemory, String gpu, String os) {
+        super.categoryName = "Computer";
+        super.price = price;
         this.ram = ram;
         this.cpu = cpu;
         this.diskMemory = diskMemory;
@@ -21,19 +22,18 @@ public class Computer extends Product {
 
     @Override
     public String toString() {
-        return String.format("%s %s %s %s %s %s ", super.toString(), ram, cpu, diskMemory, gpu, os);
+        return String.format("%s %.2f %s %s %s %s %s ", super.categoryName, super.price, ram, cpu, diskMemory, gpu, os);
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
         Computer computer = (Computer) o;
         return Objects.equals(ram, computer.ram) && Objects.equals(cpu, computer.cpu) && Objects.equals(diskMemory, computer.diskMemory) && Objects.equals(gpu, computer.gpu) && Objects.equals(os, computer.os);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), ram, cpu, diskMemory, gpu, os);
+        return Objects.hash(ram, cpu, diskMemory, gpu, os);
     }
 }

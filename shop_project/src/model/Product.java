@@ -1,6 +1,7 @@
 package model;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -9,6 +10,7 @@ public class Product {
     private final String name;
     private final BigDecimal price;
     private final AtomicInteger availableAmount;
+    private List<Configuration> productConfig;
 
     public Product(int id, String name, BigDecimal price, int availableAmount) {
         this.id = id;
