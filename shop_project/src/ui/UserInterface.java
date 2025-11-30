@@ -7,24 +7,21 @@ import exception.ProductNotAvailableException;
 import exception.ProductNotFoundException;
 import exception.PromotionExpiredException;
 import exception.UnknownPromoCodeException;
+import manager.CartManager;
 import manager.ProductManager;
-import model.Cart;
 import model.Customer;
-import model.Product;
 import promotion.PromotionManager;
 import util.Constants;
-
-import java.util.List;
 
 public class UserInterface {
     private final ProductManager manager;
     private final PromotionManager promotionManager;
-    private final Cart cart;
+    private final CartManager cartManager;
 
-    public UserInterface(ProductManager manager, Cart cart, PromotionManager promotionManager) {
+    public UserInterface(ProductManager manager, CartManager cartManager, PromotionManager promotionManager) {
         this.manager = manager;
         this.promotionManager = promotionManager;
-        this.cart = cart;
+        this.cartManager = cartManager;
     }
 
     public void start() {
@@ -46,14 +43,21 @@ public class UserInterface {
         DataPrinter.print("Zamykanie...");
     }
 
+    private void printMenu() {
+        for (MenuOption option : MenuOption.values()) {
+            DataPrinter.print(option.toString());
+        }
+    }
+
     private boolean chooseOption(boolean running) throws FileWriteException {
         DataPrinter.print("Wybierz co chcesz zrobić");
         MenuOption option = MenuOption.getOptionFromInt(DataReader.getIntFromUser());
 
         switch (option) {
-            case SHOW_PRODUCTS -> manager.showProducts();
-            case SHOW_PRODUCTS_FROM_CART -> showProductsFromCart(cart.getProductsFromCart());
+            case SHOW_PRODUCTS -> showProductsFromMagazine();
+            case SHOW_PRODUCTS_FROM_CART -> showProductsFromCart();
             case ADD_TO_CART -> addProductToCart();
+            case CONFIGURE_PRODUCT -> configureProductFromCart();
             case REMOVE_FROM_CART -> removeProductFromCart();
             case PLACE_AN_ORDER -> placeAnOrder();
             case EXIT -> running = false;
@@ -62,30 +66,39 @@ public class UserInterface {
         return running;
     }
 
-    private void printMenu() {
-        for (MenuOption option : MenuOption.values()) {
-            DataPrinter.print(option.toString());
+    private void showProductsFromMagazine() {
+        if (manager.isMagazineEmpty()) {
+            DataPrinter.print("Aktualnie pustka w magazynie... Zajrzyj wkrótce");
+            return;
         }
+        manager.getProductsFromMagazine().forEach(
+                product -> DataPrinter.print(product.toString()
+                        + "\nDostępne sztuki: "
+                        + product.getAvailableAmount()));
     }
 
-    private void showProductsFromCart(List<Product> products) {
-        if (products.isEmpty()) {
+    private void showProductsFromCart() {
+        if (cartManager.isCartEmpty()) {
             DataPrinter.print("Koszyk jest pusty");
             return;
         }
-        products.forEach(product -> DataPrinter.print(product.toString()));
+        cartManager.getProductsFromCart().forEach(product -> DataPrinter.print(product.toString()));
     }
 
     private void addProductToCart() throws FullCartException, ProductNotFoundException, ProductNotAvailableException {
         DataPrinter.print("Podaj id produktu ze sklepu, który chcesz dodać do koszyka");
-        cart.addToCart(DataReader.getIntFromUser());
+        cartManager.addToCart(DataReader.getIntFromUser());
         DataPrinter.print("Dodano produkt do koszyka");
+    }
+
+    private void configureProductFromCart() {
+
     }
 
     private void removeProductFromCart() {
         DataPrinter.print("Podaj id produktu, który chcesz usunąć");
 
-        if (cart.removeFromCart(DataReader.getIntFromUser())) {
+        if (cartManager.removeFromCart(DataReader.getIntFromUser())) {
             DataPrinter.print("Usunięto produkt z koszyka");
             return;
         }
@@ -93,14 +106,14 @@ public class UserInterface {
     }
 
     private void placeAnOrder() throws FileWriteException {
-        if (cart.isEmpty()) {
+        if (cartManager.isCartEmpty()) {
             throw new EmptyCartException("Nie udało się złożyć zamówienia, koszyk jest pusty");
         }
         Customer customer = createCustomer();
         if (hasPromoCode()) {
-            cart.placeAnOrder(customer, promotionManager, getPromoCode());
+            cartManager.placeAnOrder(customer, promotionManager, getPromoCode());
         } else {
-            cart.placeAnOrder(customer);
+            cartManager.placeAnOrder(customer);
         }
         DataPrinter.print("Pomyślnie złożono zamówienie");
     }

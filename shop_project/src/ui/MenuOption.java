@@ -6,9 +6,10 @@ enum MenuOption {
     SHOW_PRODUCTS(1, "Przeglądaj produkty"),
     SHOW_PRODUCTS_FROM_CART(2, "Pokaż produkty z koszyka"),
     ADD_TO_CART(3, "Dodaj do koszyka"),
-    REMOVE_FROM_CART(4, "Usuń z koszyka"),
-    PLACE_AN_ORDER(5, "Złóż zamówienie"),
-    EXIT(6, "Wyjdź");
+    CONFIGURE_PRODUCT(4, "Skonfiguruj produkt"),
+    REMOVE_FROM_CART(5, "Usuń z koszyka"),
+    PLACE_AN_ORDER(6, "Złóż zamówienie"),
+    EXIT(7, "Wyjdź");
 
     private final int value;
     private final String description;

@@ -1,7 +1,6 @@
 package model;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -10,9 +9,9 @@ public class Product {
     private final String name;
     private final BigDecimal price;
     private final AtomicInteger availableAmount;
-    private List<Configuration> productConfig;
+    private Configuration productConfig;
 
-    public Product(int id, String name, BigDecimal price, int availableAmount) {
+    public Product(int id, String name, BigDecimal price, int availableAmount, Configuration configuration) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -23,12 +22,24 @@ public class Product {
         return id;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public BigDecimal getPrice() {
         return price;
     }
 
     public int getAvailableAmount() {
         return availableAmount.get();
+    }
+
+    public Configuration getProductConfig() {
+        return productConfig;
+    }
+
+    public void setProductConfig(Configuration productConfig) {
+        this.productConfig = productConfig;
     }
 
     public boolean removeOneItem() {

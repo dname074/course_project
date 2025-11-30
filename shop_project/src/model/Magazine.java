@@ -39,5 +39,17 @@ public class Magazine {
         }
         return availableProducts.get(id);
     }
+
+    public boolean returnItem(int id) {
+        if (!availableProducts.containsKey(id)) {
+            return false;
+        }
+        availableProducts.get(id).addOneItem();
+        return true;
+    }
+
+    public boolean isEmpty() {
+        return availableProducts.isEmpty();
+    }
 }
 

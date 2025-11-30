@@ -8,18 +8,18 @@ import java.util.List;
 
 public class Order {
     private final Customer customer;
-    private final List<Product> cart;
+    private final List<CartItem> cart;
     private final LocalDateTime orderDate;
     private final BigDecimal totalPrice;
 
-    public Order(Customer customer, List<Product> cart) {
+    public Order(Customer customer, List<CartItem> cart) {
         this.customer = customer;
         this.cart = cart;
         orderDate = LocalDateTime.now();
         this.totalPrice = getOrderPrice();
     }
 
-    public Order(Customer customer, List<Product> cart, PromotionManager promoManager, String userCode) {
+    public Order(Customer customer, List<CartItem> cart, PromotionManager promoManager, String userCode) {
         this.customer = customer;
         this.cart = cart;
         orderDate = LocalDateTime.now();
@@ -28,7 +28,7 @@ public class Order {
 
     private BigDecimal getOrderPrice() {
         return cart.stream()
-                .map(Product::getPrice)
+                .map(CartItem::getPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
@@ -36,7 +36,7 @@ public class Order {
         return customer;
     }
 
-    public List<Product> getCart() {
+    public List<CartItem> getCart() {
         return cart;
     }
 

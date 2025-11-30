@@ -7,6 +7,9 @@ import model.Magazine;
 import model.Product;
 import ui.DataPrinter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ProductManager {
     private final Magazine magazine;
 
@@ -26,14 +29,20 @@ public class ProductManager {
         }
     }
 
-    public void showProducts() {
-        for (Product product : magazine.getProducts()) {
-            DataPrinter.print(product.toString() + "\nDostępne sztuki: " + product.getAvailableAmount());
-        }
+    public boolean addProductBackToMagazine(int id) {
+        return magazine.returnItem(id);
+    }
+
+    public List<Product> getProductsFromMagazine() {
+        return new ArrayList<>(magazine.getProducts());
     }
 
     public Product getProductFromMagazineById(int id) throws ProductNotFoundException, ProductNotAvailableException {
         return magazine.getProductById(id);
+    }
+
+    public boolean isMagazineEmpty() {
+        return magazine.isEmpty();
     }
 }
 
