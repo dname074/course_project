@@ -1,27 +1,35 @@
 package ui;
 
+import configuration.ConfigurationManager;
 import exception.EmptyCartException;
 import exception.FileWriteException;
 import exception.FullCartException;
 import exception.ProductNotAvailableException;
 import exception.ProductNotFoundException;
 import exception.PromotionExpiredException;
+import exception.UnknownCategoryException;
 import exception.UnknownPromoCodeException;
 import manager.CartManager;
 import manager.ProductManager;
+import model.CartItem;
 import model.Customer;
 import promotion.PromotionManager;
 import util.Constants;
+
+import java.util.List;
 
 public class UserInterface {
     private final ProductManager manager;
     private final PromotionManager promotionManager;
     private final CartManager cartManager;
+    private final ConfigurationManager productConfigManager;
 
-    public UserInterface(ProductManager manager, CartManager cartManager, PromotionManager promotionManager) {
+    public UserInterface(ProductManager manager, CartManager cartManager,
+                         PromotionManager promotionManager, ConfigurationManager productConfigManager) {
         this.manager = manager;
         this.promotionManager = promotionManager;
         this.cartManager = cartManager;
+        this.productConfigManager = productConfigManager;
     }
 
     public void start() {
@@ -36,7 +44,8 @@ public class UserInterface {
             } catch (IllegalArgumentException | FullCartException |
                      EmptyCartException | ProductNotFoundException |
                      ProductNotAvailableException | FileWriteException |
-                     UnknownPromoCodeException | PromotionExpiredException e) {
+                     UnknownPromoCodeException | PromotionExpiredException |
+                    UnknownCategoryException e) {
                 DataPrinter.print(e.getMessage());
             }
         }
@@ -91,8 +100,51 @@ public class UserInterface {
         DataPrinter.print("Dodano produkt do koszyka");
     }
 
-    private void configureProductFromCart() {
+    private void configureProductFromCart() throws ProductNotFoundException, UnknownCategoryException {
+        DataPrinter.print("Podaj id produktu, który chcesz skonfigurować");
+        CartItem item = cartManager.getItemById(DataReader.getIntFromUser());
 
+        switch(item.getProductConfig().getCategory().getCategoryName()) {
+            case COMPUTER -> configureComputer(item);
+            case SMARTPHONE -> configureSmartphone(item);
+            case ELECTRONICS -> configureElectronics();
+            default -> throw new UnknownCategoryException("Nieznana kategoria");
+        }
+    }
+
+    private void configureComputer(CartItem item) {
+        printConfigurationOptions(Constants.RAM_OPTIONS);
+        DataPrinter.print("Podaj ilość ramu(w GB - sama liczba): ");
+        int ram = DataReader.getIntFromUser();
+        printConfigurationOptions(Constants.DISK_OPTIONS);
+        DataPrinter.print("Podaj pamięć dysku(w GB - sama liczba): ");
+        int disk = DataReader.getIntFromUser();
+        printConfigurationOptions(Constants.COMPUTER_OS);
+        DataPrinter.print("Podaj system operacyjny: ");
+        String os = DataReader.getTextFromUser();
+
+        productConfigManager.manageComputerConfiguration(item, ram, disk, os);
+    }
+
+    private void configureSmartphone(CartItem item) {
+        printConfigurationOptions(Constants.BATTERY_CAPACITY_OPTIONS);
+        DataPrinter.print("Podaj pojemność baterii(w mAh - sama liczba): ");
+        int ram = DataReader.getIntFromUser();
+        printConfigurationOptions(Constants.SMARTPHONE_OS);
+        DataPrinter.print("Podaj system operacyjny: ");
+        String os = DataReader.getTextFromUser();
+
+        productConfigManager.manageSmartphoneConfiguration(item, ram, os);
+    }
+
+    private void printConfigurationOptions(List<String> options) {
+        for (String option : options) {
+            DataPrinter.print(option);
+        }
+    }
+
+    private void configureElectronics() {
+        DataPrinter.print("Brak elementów do konfiguracji");
     }
 
     private void removeProductFromCart() {

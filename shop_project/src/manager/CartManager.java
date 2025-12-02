@@ -56,4 +56,11 @@ public class CartManager {
     public boolean isCartEmpty() {
         return cart.isEmpty();
     }
+
+    public CartItem getItemById(int id) {
+        return cart.getItems().stream()
+                .filter(item -> item.getId() == id)
+                .findFirst()
+                .orElseThrow(() -> new ProductNotFoundException("Nie znaleziono podanego produktu w koszyku"));
+    }
 }

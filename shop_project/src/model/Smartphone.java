@@ -4,21 +4,39 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Smartphone extends Category {
-    private final String batteryCapacity;
+    private String batteryCapacity;
     private final String camera;
-    private final String system;
+    private String system;
 
     public Smartphone(BigDecimal price, String batteryCapacity, String camera, String system) {
-        super.categoryName = "Smartphone";
+        super.categoryName = CategoryOption.SMARTPHONE;
         super.price = price;
         this.batteryCapacity = batteryCapacity;
         this.camera = camera;
         this.system = system;
     }
 
+    public void setBatteryCapacity(String batteryCapacity) {
+        this.batteryCapacity = batteryCapacity;
+    }
+
+    public void setSystem(String system) {
+        this.system = system;
+    }
+
+    @Override
+    public Smartphone copy() {
+        return new Smartphone(price, batteryCapacity, camera, system);
+    }
+
+    @Override
+    public CategoryOption getCategoryName() {
+        return categoryName;
+    }
+
     @Override
     public String toString() {
-        return String.format("%s %.2f %s %s %s ", super.categoryName, super.price, batteryCapacity, camera, system);
+        return String.format("%s %s %s %s ", super.categoryName.toString(), batteryCapacity, camera, system);
     }
 
     @Override
