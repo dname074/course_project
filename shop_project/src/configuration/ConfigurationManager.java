@@ -1,5 +1,6 @@
 package configuration;
 
+import exception.InvalidConfigurationException;
 import model.CartItem;
 import model.Computer;
 import model.Smartphone;
@@ -12,7 +13,7 @@ public class ConfigurationManager {
     }
 
     public void manageComputerConfiguration(CartItem item, int ram,
-                                            int disk, String os) {
+                                            int disk, String os) throws InvalidConfigurationException {
         String formattedRam = ram + " GB";
         String formattedDisk = disk + " GB";
         configurationValidator.validateComputerConf(formattedRam, formattedDisk, os);
@@ -23,7 +24,7 @@ public class ConfigurationManager {
         System.out.println(item);
     }
 
-    public void manageSmartphoneConfiguration(CartItem item, int batteryCapacity, String os) {
+    public void manageSmartphoneConfiguration(CartItem item, int batteryCapacity, String os) throws InvalidConfigurationException {
         String formattedBatteryCapacity = batteryCapacity + " mAh";
         configurationValidator.validateSmartphoneConf(formattedBatteryCapacity, os);
         Smartphone config = (Smartphone) item.getProductConfig().getCategory();

@@ -4,6 +4,7 @@ import configuration.ConfigurationManager;
 import exception.EmptyCartException;
 import exception.FileWriteException;
 import exception.FullCartException;
+import exception.InvalidConfigurationException;
 import exception.ProductNotAvailableException;
 import exception.ProductNotFoundException;
 import exception.PromotionExpiredException;
@@ -45,7 +46,7 @@ public class UserInterface {
                      EmptyCartException | ProductNotFoundException |
                      ProductNotAvailableException | FileWriteException |
                      UnknownPromoCodeException | PromotionExpiredException |
-                    UnknownCategoryException e) {
+                    UnknownCategoryException | InvalidConfigurationException e) {
                 DataPrinter.print(e.getMessage());
             }
         }
@@ -58,7 +59,9 @@ public class UserInterface {
         }
     }
 
-    private boolean chooseOption(boolean running) throws FileWriteException {
+    private boolean chooseOption(boolean running) throws FullCartException, EmptyCartException,
+            ProductNotFoundException, FileWriteException, UnknownPromoCodeException,
+            PromotionExpiredException, UnknownCategoryException, InvalidConfigurationException {
         DataPrinter.print("Wybierz co chcesz zrobić");
         MenuOption option = MenuOption.getOptionFromInt(DataReader.getIntFromUser());
 
@@ -100,7 +103,7 @@ public class UserInterface {
         DataPrinter.print("Dodano produkt do koszyka");
     }
 
-    private void configureProductFromCart() throws ProductNotFoundException, UnknownCategoryException {
+    private void configureProductFromCart() throws ProductNotFoundException, InvalidConfigurationException {
         DataPrinter.print("Podaj id produktu, który chcesz skonfigurować");
         CartItem item = cartManager.getItemById(DataReader.getIntFromUser());
 
@@ -112,7 +115,7 @@ public class UserInterface {
         }
     }
 
-    private void configureComputer(CartItem item) {
+    private void configureComputer(CartItem item) throws InvalidConfigurationException {
         printConfigurationOptions(Constants.RAM_OPTIONS);
         DataPrinter.print("Podaj ilość ramu(w GB - sama liczba): ");
         int ram = DataReader.getIntFromUser();
@@ -126,7 +129,7 @@ public class UserInterface {
         productConfigManager.manageComputerConfiguration(item, ram, disk, os);
     }
 
-    private void configureSmartphone(CartItem item) {
+    private void configureSmartphone(CartItem item) throws InvalidConfigurationException {
         printConfigurationOptions(Constants.BATTERY_CAPACITY_OPTIONS);
         DataPrinter.print("Podaj pojemność baterii(w mAh - sama liczba): ");
         int ram = DataReader.getIntFromUser();

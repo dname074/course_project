@@ -4,13 +4,13 @@ import exception.InvalidConfigurationException;
 import util.Constants;
 
 public class ConfigurationValidator {
-    public void validateComputerConf(String ram, String disk, String os) {
+    public void validateComputerConf(String ram, String disk, String os) throws InvalidConfigurationException {
         validateRam(ram);
         validateDisk(disk);
         validateComputerOS(os);
     }
 
-    public void validateSmartphoneConf(String batteryCapacity, String os) {
+    public void validateSmartphoneConf(String batteryCapacity, String os) throws InvalidConfigurationException {
         validateBatteryCapacity(batteryCapacity);
         validateSmartphoneOS(os);
     }
