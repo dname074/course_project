@@ -1,5 +1,8 @@
 package model;
 
+/*
+Available products categories
+ */
 public enum CategoryOption {
     COMPUTER("Komputer"),
     SMARTPHONE("Smartfon"),

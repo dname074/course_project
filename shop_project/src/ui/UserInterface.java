@@ -19,6 +19,10 @@ import util.Constants;
 
 import java.util.List;
 
+/*
+Class with user interface, there are every 'prints'
+and communication with user
+ */
 public class UserInterface {
     private final ProductManager manager;
     private final PromotionManager promotionManager;
@@ -140,14 +144,15 @@ public class UserInterface {
         productConfigManager.manageSmartphoneConfiguration(item, ram, os);
     }
 
+    private void configureElectronics() {
+        DataPrinter.print("Brak elementów do konfiguracji");
+        productConfigManager.manageElectronicsConfiguration();
+    }
+
     private void printConfigurationOptions(List<String> options) {
         for (String option : options) {
             DataPrinter.print(option);
         }
-    }
-
-    private void configureElectronics() {
-        DataPrinter.print("Brak elementów do konfiguracji");
     }
 
     private void removeProductFromCart() {

@@ -9,6 +9,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 
+/*
+This class saves order invoices to csv file
+- if file doesn't exist, program will create it
+- method is synchronized, so only one thread can execute it at a time
+*/
 public class InvoiceCsvManager {
     private final Path filePath = Path.of(Constants.CSV_FILE_PATH);
     private final Object lockObject = new Object();

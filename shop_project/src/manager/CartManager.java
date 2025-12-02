@@ -11,6 +11,13 @@ import promotion.PromotionManager;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+This class manages cart
+- add products to cart
+- remove products from cart
+- get products from cart
+- place an order (creates an Order object and processes it with OrderProcessor)
+ */
 public class CartManager {
     private final Cart cart;
     private final ProductManager productManager;
@@ -57,6 +64,7 @@ public class CartManager {
         return cart.isEmpty();
     }
 
+    // looking for a product with the given id (by id that a product has in magazine)
     public CartItem getItemById(int id) {
         return cart.getItems().stream()
                 .filter(item -> item.getId() == id)

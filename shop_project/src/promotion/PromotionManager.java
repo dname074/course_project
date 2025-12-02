@@ -1,5 +1,8 @@
 package promotion;
 
+import exception.PromotionExpiredException;
+import exception.UnknownPromoCodeException;
+
 import java.math.BigDecimal;
 
 public class PromotionManager {
@@ -11,7 +14,8 @@ public class PromotionManager {
         this.promotionRepository = promotionRepository;
     }
 
-    public BigDecimal applyPromotion(BigDecimal price, String userCode) {
+    // first checks validation with PromotionValidator(if validation fails method throws exceptions), then applies a promotion to an order
+    public BigDecimal applyPromotion(BigDecimal price, String userCode) throws PromotionExpiredException, UnknownPromoCodeException {
         Promotion promotion = promoValidator.validatePromotion(userCode, promotionRepository);
         return price.multiply(BigDecimal.ONE.subtract(BigDecimal.valueOf(promotion.getDiscount())));
     }

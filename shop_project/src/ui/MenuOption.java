@@ -2,6 +2,9 @@ package ui;
 
 import util.Constants;
 
+/*
+Options shown in user interface
+ */
 enum MenuOption {
     SHOW_PRODUCTS(1, "Przeglądaj produkty"),
     SHOW_PRODUCTS_FROM_CART(2, "Pokaż produkty z koszyka"),

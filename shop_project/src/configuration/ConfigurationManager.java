@@ -5,6 +5,10 @@ import model.CartItem;
 import model.Computer;
 import model.Smartphone;
 
+/*
+This class overrides products with new configuration given by user in UserInterface class
+Uses ConfigurationValidator to validate data
+ */
 public class ConfigurationManager {
     private final ConfigurationValidator configurationValidator;
 
