@@ -3,19 +3,21 @@ package model;
 import configuration.Configuration;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class CartItem {
     private final int id;
     private final String name;
     private final BigDecimal price;
-    private final Configuration productConfig;
+    private final List<Configuration> config;
 
     public CartItem(Product product) {
         this.id = product.getId();
         this.name = product.getName();
         this.price = product.getPrice();
-        this.productConfig = new Configuration(product.getProductConfig());
+        this.config = new ArrayList<>(product.getConfig());
     }
 
     public int getId() {
@@ -26,25 +28,25 @@ public class CartItem {
         return price;
     }
 
-    public Configuration getProductConfig() {
-        return productConfig;
+    public List<Configuration> getConfig() {
+        return config;
     }
 
     @Override
     public String toString() {
-        return String.format("%d %s %.2f zł %s", id, name, price, productConfig.toString());
+        return String.format("%d %s %.2f zł %s", id, name, price, config.toString());
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         CartItem cartItem = (CartItem) o;
-        return id == cartItem.id && Objects.equals(name, cartItem.name) && Objects.equals(price, cartItem.price) && Objects.equals(productConfig, cartItem.productConfig);
+        return id == cartItem.id && Objects.equals(name, cartItem.name) && Objects.equals(price, cartItem.price) && Objects.equals(config, cartItem.config);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, price, productConfig);
+        return Objects.hash(id, name, price, config);
     }
 }
 

@@ -1,31 +1,20 @@
 package configuration;
 
-import model.Category;
+import model.ConfigType;
 
 public class Configuration {
-    private final String color;
-    private final Category category;
+    private final ConfigType type;
 
-    public Configuration(String color, Category category) {
-        this.color = color;
-        this.category = category;
+    public Configuration(ConfigType type) {
+        this.type = type;
     }
 
-    public Configuration(Configuration other) {
-        this.color = other.getColor();
-        this.category = other.getCategory().copy();
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public Category getCategory() {
-        return category;
+    public ConfigType getType() {
+        return type;
     }
 
     @Override
     public String toString() {
-        return String.format("%s %s", color, category.toString());
+        return String.format(type.toString());
     }
 }

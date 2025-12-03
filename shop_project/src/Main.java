@@ -6,8 +6,8 @@ import manager.InvoiceGenerator;
 import manager.OrderProcessor;
 import manager.ProductManager;
 import model.Cart;
-import model.Computer;
 import configuration.Configuration;
+import model.ConfigType;
 import model.Magazine;
 import model.Product;
 import promotion.Promotion;
@@ -22,6 +22,7 @@ import util.Constants;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -37,13 +38,7 @@ public class Main {
         PromotionValidator promoValidator = new PromotionValidator();
         PromotionManager promoManager = new PromotionManager(promoValidator, promoRepository);
 
-        try {
-            Configuration config = new Configuration("Czarny", new Computer(BigDecimal.valueOf(3999), "16 GB",
-                    "Intel Core I5", "500 GB", "Geforce GTX 1660", "Windows 11"));
-            productManager.addProductToMagazine(new Product(1, "WypasionyKomp",50, config));
-        } catch (ProductAlreadyInSystemException e) {
-            DataPrinter.print(e.getMessage());
-        }
+        generateTestData(productManager);
 
         InvoiceGenerator invoiceGenerator = new InvoiceGenerator();
         InvoiceCsvManager invoiceCsvManager = new InvoiceCsvManager();
@@ -58,5 +53,15 @@ public class Main {
         UserInterface app = new UserInterface(productManager, cartManager, promoManager, productConfigManager);
         app.start();
         executorService.shutdown();
+    }
+
+    private static void generateTestData(ProductManager productManager) {
+        try {
+            List<Configuration> wypasionyKomp = List.of(new Configuration(ConfigType.RAM_8), new Configuration(ConfigType.DISK_500),
+                    new Configuration(ConfigType.GPU_1660), new Configuration(ConfigType.PROCESSOR_1), new Configuration(ConfigType.COLOR_BLACK));
+            productManager.addProductToMagazine(new Product(1, "WypasionyKomp", BigDecimal.valueOf(1500), 50, wypasionyKomp));
+        } catch (ProductAlreadyInSystemException e) {
+            DataPrinter.print(e.getMessage());
+        }
     }
 }

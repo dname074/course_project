@@ -3,6 +3,7 @@ package model;
 import configuration.Configuration;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -11,15 +12,14 @@ public class Product {
     private final String name;
     private final BigDecimal price;
     private final AtomicInteger availableAmount;
-    private Configuration productConfig;
+    private final List<Configuration> config;
 
-    public Product(int id, String name, int availableAmount, Configuration productConfig) {
+    public Product(int id, String name, BigDecimal defaultPrice, int availableAmount, List<Configuration> config) {
         this.id = id;
         this.name = name;
         this.availableAmount = new AtomicInteger(availableAmount);
-        this.productConfig = productConfig;
-
-        this.price = productConfig.getCategory().price;
+        this.config = config;
+        this.price = defaultPrice.multiply(getConfigurationPrice());
     }
 
     public int getId() {
@@ -38,12 +38,8 @@ public class Product {
         return availableAmount.get();
     }
 
-    public Configuration getProductConfig() {
-        return productConfig;
-    }
-
-    public void setProductConfig(Configuration productConfig) {
-        this.productConfig = productConfig;
+    public List<Configuration> getConfig() {
+        return config;
     }
 
     public boolean removeOneItem() {
@@ -58,9 +54,15 @@ public class Product {
         availableAmount.incrementAndGet();
     }
 
+    private BigDecimal getConfigurationPrice() {
+        return config.stream()
+                .map(configuration -> configuration.getType().getPrice())
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
     @Override
     public String toString() {
-        return String.format("%d %s %.2f zł %s", id, name, price, productConfig.toString());
+        return String.format("%d %s %.2f zł %s", id, name, price, config.toString());
     }
 
     @Override
