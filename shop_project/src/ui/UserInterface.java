@@ -1,6 +1,7 @@
 package ui;
 
-import configuration.ConfigurationManager;
+import model.Configuration;
+import manager.ConfigurationManager;
 import exception.EmptyCartException;
 import exception.FileWriteException;
 import exception.FullCartException;
@@ -13,11 +14,16 @@ import exception.UnknownPromoCodeException;
 import manager.CartManager;
 import manager.ProductManager;
 import model.CartItem;
+import model.ConfigOption;
+import model.ConfigType;
 import model.Customer;
 import promotion.PromotionManager;
 import util.Constants;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /*
 Class with user interface, there are every 'prints'
@@ -111,48 +117,32 @@ public class UserInterface {
         DataPrinter.print("Podaj id produktu, który chcesz skonfigurować");
         CartItem item = cartManager.getItemById(DataReader.getIntFromUser());
 
-        switch(item.getProductConfig().getCategory().getCategoryName()) {
-            case COMPUTER -> configureComputer(item);
-            case SMARTPHONE -> configureSmartphone(item);
-            case ELECTRONICS -> configureElectronics();
-            default -> throw new UnknownCategoryException("Nieznana kategoria");
+        chooseConfig(item);
+    }
+
+    private void chooseConfig(CartItem item) {
+        Set<ConfigOption> configTypes = getConfigTypes(item);
+
+        List<Configuration> newConfig = new ArrayList<>();
+        for (ConfigOption option : configTypes) {
+            ConfigType type = option.getType();
+            for (ConfigOption configOption : ConfigOption.getOptionsByType(type)) {
+                DataPrinter.print(String.format("%d %s",configOption.getIndex(), configOption));
+            }
+            newConfig.add(getConfig(type));
         }
+        productConfigManager.manageConfiguration(item, newConfig);
     }
 
-    private void configureComputer(CartItem item) throws InvalidConfigurationException {
-        printConfigurationOptions(Constants.RAM_OPTIONS);
-        DataPrinter.print("Podaj ilość ramu(w GB - sama liczba): ");
-        int ram = DataReader.getIntFromUser();
-        printConfigurationOptions(Constants.DISK_OPTIONS);
-        DataPrinter.print("Podaj pamięć dysku(w GB - sama liczba): ");
-        int disk = DataReader.getIntFromUser();
-        printConfigurationOptions(Constants.COMPUTER_OS);
-        DataPrinter.print("Podaj system operacyjny: ");
-        String os = DataReader.getTextFromUser();
-
-        productConfigManager.manageComputerConfiguration(item, ram, disk, os);
+    private Set<ConfigOption> getConfigTypes(CartItem item) {
+        return item.getConfig().stream()
+                .map(Configuration::getConfigOption)
+                .collect(Collectors.toSet());
     }
 
-    private void configureSmartphone(CartItem item) throws InvalidConfigurationException {
-        printConfigurationOptions(Constants.BATTERY_CAPACITY_OPTIONS);
-        DataPrinter.print("Podaj pojemność baterii(w mAh - sama liczba): ");
-        int ram = DataReader.getIntFromUser();
-        printConfigurationOptions(Constants.SMARTPHONE_OS);
-        DataPrinter.print("Podaj system operacyjny: ");
-        String os = DataReader.getTextFromUser();
-
-        productConfigManager.manageSmartphoneConfiguration(item, ram, os);
-    }
-
-    private void configureElectronics() {
-        DataPrinter.print("Brak elementów do konfiguracji");
-        productConfigManager.manageElectronicsConfiguration();
-    }
-
-    private void printConfigurationOptions(List<String> options) {
-        for (String option : options) {
-            DataPrinter.print(option);
-        }
+    private Configuration getConfig(ConfigType type) {
+        DataPrinter.print("Wybierz opcję ");
+        return new Configuration(ConfigOption.getOptionFromInt(DataReader.getIntFromUser(), type));
     }
 
     private void removeProductFromCart() {
