@@ -1,7 +1,5 @@
 package model;
 
-import configuration.Configuration;
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
@@ -19,7 +17,7 @@ public class Product {
         this.name = name;
         this.availableAmount = new AtomicInteger(availableAmount);
         this.config = config;
-        this.price = defaultPrice.multiply(getConfigurationPrice());
+        this.price = defaultPrice.add(getConfigurationPrice());
     }
 
     public int getId() {
@@ -56,13 +54,22 @@ public class Product {
 
     private BigDecimal getConfigurationPrice() {
         return config.stream()
-                .map(configuration -> configuration.getType().getPrice())
+                .map(configuration -> configuration.getConfigOption().getPrice())
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    private String getConfigurationString() {
+        StringBuilder builder = new StringBuilder();
+        config.forEach(configuration -> {
+            builder.append(configuration.toString());
+            builder.append(" zł ");
+        });
+        return builder.toString();
     }
 
     @Override
     public String toString() {
-        return String.format("%d %s %.2f zł %s", id, name, price, config.toString());
+        return String.format("%d %s %.2f zł %s", id, name, price, getConfigurationString());
     }
 
     @Override
