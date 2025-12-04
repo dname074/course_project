@@ -1,5 +1,7 @@
 package model;
 
+import util.ConfigurationCalculator;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,27 +34,12 @@ public class CartItem {
 
     public void setConfig(List<Configuration> config) {
         this.config = config;
-        price = price.add(getConfigurationPrice());
-    }
-
-    private BigDecimal getConfigurationPrice() {
-        return config.stream()
-                .map(configuration -> configuration.getConfigOption().getPrice())
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-    }
-
-    private String getConfigurationString() {
-        StringBuilder builder = new StringBuilder();
-        config.forEach(configuration -> {
-            builder.append(configuration.toString());
-            builder.append(" zł ");
-        });
-        return builder.toString();
+        price = price.add(ConfigurationCalculator.getConfigurationPrice(config));
     }
 
     @Override
     public String toString() {
-        return String.format("%d %s %.2f zł %s", id, name, price, getConfigurationString());
+        return String.format("%d %s %.2f zł %s", id, name, price, ConfigurationCalculator.getConfigurationString(config));
     }
 
     @Override
