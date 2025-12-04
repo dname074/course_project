@@ -3,26 +3,26 @@ package model;
 import promotion.PromotionManager;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 public class Order {
     private final Customer customer;
     private final List<CartItem> cart;
-    private final LocalDateTime orderDate;
+    private final ZonedDateTime orderDate;
     private final BigDecimal totalPrice;
 
     public Order(Customer customer, List<CartItem> cart) {
         this.customer = customer;
         this.cart = cart;
-        orderDate = LocalDateTime.now();
+        orderDate = ZonedDateTime.now();
         this.totalPrice = getOrderPrice();
     }
 
     public Order(Customer customer, List<CartItem> cart, PromotionManager promoManager, String userCode) {
         this.customer = customer;
         this.cart = cart;
-        orderDate = LocalDateTime.now();
+        orderDate = ZonedDateTime.now();
         this.totalPrice = promoManager.applyPromotion(getOrderPrice(), userCode);
     }
 
@@ -40,7 +40,7 @@ public class Order {
         return cart;
     }
 
-    public LocalDateTime getOrderDate() {
+    public ZonedDateTime getOrderDate() {
         return orderDate;
     }
 
