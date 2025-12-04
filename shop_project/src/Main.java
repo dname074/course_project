@@ -54,9 +54,12 @@ public class Main {
 
     private static void generateTestData(ProductManager productManager) {
         try {
-            List<Configuration> wypasionyKomp = List.of(new Configuration(ConfigOption.RAM_8), new Configuration(ConfigOption.DISK_500),
+            List<Configuration> computerConfig = List.of(new Configuration(ConfigOption.RAM_8), new Configuration(ConfigOption.DISK_500),
                     new Configuration(ConfigOption.GPU_1660), new Configuration(ConfigOption.PROCESSOR_1), new Configuration(ConfigOption.COLOR_BLACK));
-            productManager.addProductToMagazine(new Product(1, "WypasionyKomp", BigDecimal.valueOf(1500), 50, wypasionyKomp));
+            productManager.addProductToMagazine(new Product(1, "WypasionyKomp", BigDecimal.valueOf(1500), 50, computerConfig));
+            List<Configuration> phoneConfig = List.of(new Configuration(ConfigOption.CAMERA_50), new Configuration(ConfigOption.BATTERY_CAPACITY_3000),
+                    new Configuration(ConfigOption.COLOR_WHITE), new Configuration(ConfigOption.OS_ANDROID_14));
+            productManager.addProductToMagazine(new Product(2, "Mocny Telefon", BigDecimal.valueOf(1000), 50, phoneConfig));
         } catch (ProductAlreadyInSystemException e) {
             DataPrinter.print(e.getMessage());
         }
