@@ -131,7 +131,7 @@ public class UserInterface {
             }
             newConfig.add(getConfig(type));
         }
-        productConfigManager.manageConfiguration(item, newConfig);
+        productConfigManager.changeConfiguration(item, newConfig);
     }
 
     private Set<ConfigOption> getConfigTypes(CartItem item) {

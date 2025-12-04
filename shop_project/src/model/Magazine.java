@@ -10,20 +10,25 @@ import java.util.Map;
 
 public class Magazine {
     private final Map<Integer, Product> availableProducts = new HashMap<>();
+    private final Object lockObject = new Object();
 
     public void addProduct(Product product) {
-        if (availableProducts.containsKey(product.getId())) {
-            throw new ProductAlreadyInSystemException("Produkt o tym id znajduje się już w systemie");
+        synchronized (lockObject) {
+            if (availableProducts.containsKey(product.getId())) {
+                throw new ProductAlreadyInSystemException("Produkt o tym id znajduje się już w systemie");
+            }
+            availableProducts.put(product.getId(), product);
         }
-        availableProducts.put(product.getId(), product);
     }
 
     public boolean removeProduct(int id) {
-        if (availableProducts.containsKey(id)) {
-            availableProducts.remove(id);
-            return true;
+        synchronized (lockObject) {
+            if (availableProducts.containsKey(id)) {
+                availableProducts.remove(id);
+                return true;
+            }
+            return false;
         }
-        return false;
     }
 
     public Collection<Product> getProducts() {

@@ -1,23 +1,27 @@
 package manager;
 
-import exception.FileWriteException;
+import model.Invoice;
 import model.Order;
 import storage.csv.InvoiceCsvManager;
 
-import java.util.concurrent.ExecutorService;
+import java.util.concurrent.CompletableFuture;
 
 public class OrderProcessor {
     private final InvoiceGenerator invoiceGenerator;
     private final InvoiceCsvManager csvManager;
-    private final ExecutorService executorService;
 
-    public OrderProcessor(InvoiceGenerator invoiceGenerator, InvoiceCsvManager csvManager, ExecutorService executor) {
+    public OrderProcessor(InvoiceGenerator invoiceGenerator, InvoiceCsvManager csvManager) {
         this.invoiceGenerator = invoiceGenerator;
         this.csvManager = csvManager;
-        this.executorService = executor;
     }
 
-    public void takeAnOrder(Order order) throws FileWriteException {
-        executorService.submit(new OrderProcessingTask(csvManager, invoiceGenerator, order));
+    public void takeAnOrder(Order order) {
+        CompletableFuture.runAsync(() -> {
+            Invoice invoice = invoiceGenerator.generateInvoice(order);
+            csvManager.saveInvoice(invoice);
+        }).exceptionally(e -> {
+            System.err.println(e.getMessage());
+            return null;
+        });
     }
 }

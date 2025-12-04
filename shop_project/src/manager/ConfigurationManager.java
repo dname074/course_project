@@ -10,7 +10,7 @@ This class overrides products with new configuration given by user in UserInterf
 Uses ConfigurationValidator to validate data
  */
 public class ConfigurationManager {
-    public void manageConfiguration(CartItem item, List<Configuration> config) {
+    public void changeConfiguration(CartItem item, List<Configuration> config) {
         item.setConfig(config);
     }
 }
