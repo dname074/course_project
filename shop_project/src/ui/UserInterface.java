@@ -30,14 +30,14 @@ Class with user interface, there are every 'prints'
 and communication with user
  */
 public class UserInterface {
-    private final ProductManager manager;
+    private final ProductManager productManager;
     private final PromotionManager promotionManager;
     private final CartManager cartManager;
     private final ConfigurationManager productConfigManager;
 
-    public UserInterface(ProductManager manager, CartManager cartManager,
+    public UserInterface(ProductManager productManager, CartManager cartManager,
                          PromotionManager promotionManager, ConfigurationManager productConfigManager) {
-        this.manager = manager;
+        this.productManager = productManager;
         this.promotionManager = promotionManager;
         this.cartManager = cartManager;
         this.productConfigManager = productConfigManager;
@@ -46,6 +46,7 @@ public class UserInterface {
     public void start() {
         boolean running = true;
 
+        // todo: exceptiony mają extendować np. shopException zeby tylko jeden lapac tutaj
         while (running) {
             DataPrinter.print("Witamy w naszym sklepie");
 
@@ -73,7 +74,8 @@ public class UserInterface {
             ProductNotFoundException, FileWriteException, UnknownPromoCodeException,
             PromotionExpiredException, UnknownCategoryException, InvalidConfigurationException {
         DataPrinter.print("Wybierz co chcesz zrobić");
-        MenuOption option = MenuOption.getOptionFromInt(DataReader.getIntFromUser());
+        int option1 = DataReader.getIntFromUser();
+        MenuOption option = MenuOption.getOptionFromInt(option1);
 
         switch (option) {
             case SHOW_PRODUCTS -> showProductsFromMagazine();
@@ -89,11 +91,11 @@ public class UserInterface {
     }
 
     private void showProductsFromMagazine() {
-        if (manager.isMagazineEmpty()) {
+        if (productManager.isMagazineEmpty()) {
             DataPrinter.print("Aktualnie pustka w magazynie... Zajrzyj wkrótce");
             return;
         }
-        manager.getProductsFromMagazine().forEach(
+        productManager.getProductsFromMagazine().forEach(
                 product -> DataPrinter.print(product.toString()
                         + "\nDostępne sztuki: "
                         + product.getAvailableAmount()));

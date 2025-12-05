@@ -16,6 +16,7 @@ import promotion.PromotionValidator;
 import storage.csv.InvoiceCsvManager;
 import ui.DataPrinter;
 import ui.UserInterface;
+import util.Constants;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -47,8 +48,8 @@ public class Main {
 
     private static PromotionRepository generatePromoCodes() {
         return new PromotionRepository(Arrays.asList(
-                new Promotion("ABCDEFGH", Instant.now().plusSeconds(300), 0.15),
-                new Promotion("H5J4K3L2", Instant.now().minusSeconds(300), 0.10)
+                new Promotion(Constants.PROMO_CODE_1, Instant.now().plusSeconds(300), 0.15),
+                new Promotion(Constants.PROMO_CODE_2, Instant.now().minusSeconds(300), 0.10)
         ));
     }
 

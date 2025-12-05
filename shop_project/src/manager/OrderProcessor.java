@@ -1,5 +1,6 @@
 package manager;
 
+import exception.FileWriteException;
 import model.Invoice;
 import model.Order;
 import storage.csv.InvoiceCsvManager;
@@ -21,7 +22,7 @@ public class OrderProcessor {
             csvManager.saveInvoice(invoice);
         }).exceptionally(e -> {
             System.err.println(e.getMessage());
-            return null;
+            throw new FileWriteException(e.getMessage());
         });
     }
 }
