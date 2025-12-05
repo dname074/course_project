@@ -1,5 +1,6 @@
 package ui;
 
+import exception.ShopFailureException;
 import model.Configuration;
 import manager.ConfigurationManager;
 import exception.EmptyCartException;
@@ -8,9 +9,6 @@ import exception.FullCartException;
 import exception.InvalidConfigurationException;
 import exception.ProductNotAvailableException;
 import exception.ProductNotFoundException;
-import exception.PromotionExpiredException;
-import exception.UnknownCategoryException;
-import exception.UnknownPromoCodeException;
 import manager.CartManager;
 import manager.ProductManager;
 import model.CartItem;
@@ -46,18 +44,13 @@ public class UserInterface {
     public void start() {
         boolean running = true;
 
-        // todo: exceptiony mają extendować np. shopException zeby tylko jeden lapac tutaj
         while (running) {
             DataPrinter.print("Witamy w naszym sklepie");
 
             printMenu();
             try {
                 running = chooseOption(running);
-            } catch (IllegalArgumentException | FullCartException |
-                     EmptyCartException | ProductNotFoundException |
-                     ProductNotAvailableException | FileWriteException |
-                     UnknownPromoCodeException | PromotionExpiredException |
-                    UnknownCategoryException | InvalidConfigurationException e) {
+            } catch (ShopFailureException e) {
                 DataPrinter.print(e.getMessage());
             }
         }
@@ -70,9 +63,7 @@ public class UserInterface {
         }
     }
 
-    private boolean chooseOption(boolean running) throws FullCartException, EmptyCartException,
-            ProductNotFoundException, FileWriteException, UnknownPromoCodeException,
-            PromotionExpiredException, UnknownCategoryException, InvalidConfigurationException {
+    private boolean chooseOption(boolean running) throws ShopFailureException {
         DataPrinter.print("Wybierz co chcesz zrobić");
         int option1 = DataReader.getIntFromUser();
         MenuOption option = MenuOption.getOptionFromInt(option1);
